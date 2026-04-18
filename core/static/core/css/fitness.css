@@ -1,0 +1,126 @@
+/* 3D Rotating Human Figure Animation */
+
+.step-indicator {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.scene {
+    width: 200px;
+    height: 300px;
+    perspective: 800px;
+    /* Gives the 3D depth effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.human-figure {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: rotateBody 10s linear infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Common properties for all body parts */
+.body-part {
+    position: absolute;
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.6);
+    box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.8), 0 0 15px rgba(139, 92, 246, 0.4);
+    backdrop-filter: blur(4px);
+}
+
+.head-3d {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 40px;
+    transform: translateZ(0);
+    /* Center axis */
+}
+
+/* Create a 3D looking cylinder effect for the torso using box shadows */
+.torso-3d {
+    width: 50px;
+    height: 80px;
+    border-radius: 10px;
+    top: 90px;
+    transform: translateZ(0);
+}
+
+.arm-left-3d {
+    width: 15px;
+    height: 70px;
+    border-radius: 10px;
+    top: 95px;
+    left: 45px;
+    transform-origin: top center;
+    transform: translateZ(10px) rotateZ(15deg);
+}
+
+.arm-right-3d {
+    width: 15px;
+    height: 70px;
+    border-radius: 10px;
+    top: 95px;
+    right: 45px;
+    transform-origin: top center;
+    transform: translateZ(-10px) rotateZ(-15deg);
+}
+
+.leg-left-3d {
+    width: 18px;
+    height: 80px;
+    border-radius: 10px;
+    top: 175px;
+    left: 65px;
+    transform: translateZ(5px);
+}
+
+.leg-right-3d {
+    width: 18px;
+    height: 80px;
+    border-radius: 10px;
+    top: 175px;
+    right: 65px;
+    transform: translateZ(-5px);
+}
+
+/* The actual rotation animation */
+@keyframes rotateBody {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+/* Customizing the select inputs from base */
+select.input-field {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+select.input-field option {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}

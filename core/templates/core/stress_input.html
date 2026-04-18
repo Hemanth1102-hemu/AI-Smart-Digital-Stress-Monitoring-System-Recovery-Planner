@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Reusing custom fitness styles -->
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/fitness.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <header class="app-header">
+        <h2 class="logo-text">System<span class="highlight">Setup</span></h2>
+        <div class="step-indicator">Step 2 of 4</div>
+    </header>
+
+    <div class="profile-container" style="max-width: 600px; margin: 0 auto; margin-top: 50px;">
+        <div class="glass-card profile-card" style="width: 100%;">
+            <div class="profile-layout" style="grid-template-columns: 1fr; gap: 20px;">
+                <div class="profile-form-section" style="text-align: center;">
+                    <h1 class="page-title">Daily Stress Metrics</h1>
+                    <p class="tagline">How has your day been?</p>
+
+                    <form action="{% url 'stress_input' %}" method="post" class="profile-form"
+                        style="display: flex; flex-direction: column; gap: 20px; align-items: stretch; margin-top: 30px;">
+                        {% csrf_token %}
+                        <div class="input-group" style="text-align: left;">
+                            <label class="input-label">Sleep time (hours)</label>
+                            <input type="number" name="sleep_time" step="0.5" class="input-field" placeholder="e.g. 6.5"
+                                required>
+                        </div>
+                        <div class="input-group" style="text-align: left;">
+                            <label class="input-label">Screen time (hours)</label>
+                            <input type="number" name="screen_time" step="0.5" class="input-field" placeholder="e.g. 8"
+                                required>
+                        </div>
+                        <div class="input-group" style="text-align: left;">
+                            <label class="input-label">Present Mood</label>
+                            <select name="mood" class="input-field" required>
+                                <option value="" disabled selected>Select mood</option>
+                                <option value="calm">Calm & Relaxed</option>
+                                <option value="pleasant">Pleasant & Happy</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="anxious">Anxious & Overwhelmed</option>
+                                <option value="stressed">Highly Stressed & Irritable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions" style="margin-top: 20px;">
+                            <button type="submit" class="btn-primary"
+                                style="width: 100%; font-size: 1.1rem; padding: 16px;">Reveal Stress Analysis</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

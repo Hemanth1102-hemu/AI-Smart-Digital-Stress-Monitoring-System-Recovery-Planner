@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <header class="app-header">
+        <h2 class="logo-text">System<span class="highlight">Analysis</span></h2>
+        <div class="step-indicator">Step 3 of 4</div>
+    </header>
+
+    <div class="result-container">
+        <h1 class="page-title txt-center">Your Stress Level</h1>
+
+        <div class="circular-progress-container">
+            <svg class="circular-progress" viewBox="0 0 100 100">
+                <circle class="bg" cx="50" cy="50" r="45"></circle>
+                <!-- the offset is calculated in JS based on percentage -->
+                <circle class="meter severity-{{ severity_class }}" cx="50" cy="50" r="45" id="progress-meter"></circle>
+            </svg>
+            <div class="percentage-display">
+                <span id="percentage-value">0</span>%
+            </div>
+        </div>
+
+        <h2 class="severity-title severity-{{ severity_class }}-txt">
+            {{ severity }}
+        </h2>
+
+        <div class="metric-breakdown glass-card">
+            <h3>Metric Influences</h3>
+            <div class="breakdown-list">
+                <div class="breakdown-item">
+                    <span>Sleep ({{ sleep_time }} hrs)</span>
+                    <span class="{{ sleep_impact_class }}">{{ sleep_impact }}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Screen ({{ screen_time }} hrs)</span>
+                    <span class="{{ screen_impact_class }}">{{ screen_impact }}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Mood ({{ mood }})</span>
+                    <span class="{{ mood_impact_class }}">{{ mood_impact }}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>BMI ({{ bmi_value }})</span>
+                    <span class="{{ bmi_class }}">{{ bmi_impact }}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Activity ({{ activity_level }})</span>
+                    <span class="{{ activity_class }}">{{ activity_impact }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 40px;">
+            <a href="{% url 'recovery_plan' %}" class="btn-primary calculate-btn">Generate AI Recovery Plan &rarr;</a>
+        </div>
+    </div>
+</div>
+<script>
+    // Trigger the animation for the circular progress bar
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const meter = document.getElementById('progress-meter');
+            const targetPercentage = parseInt("{{ stress_percentage }}", 10) || 0;
+            const circleLength = 2 * Math.PI * 45; // Circumference
+
+            // Starts hidden, animates to percentage
+            const offset = circleLength - (targetPercentage / 100) * circleLength;
+            meter.style.strokeDashoffset = offset;
+
+            // Counter animation
+            const valueSpan = document.getElementById('percentage-value');
+            let count = 0;
+            const duration = 1500;
+            const frameRate = 30;
+            const totalFrames = duration / frameRate;
+            const increment = targetPercentage / totalFrames;
+
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= targetPercentage) {
+                    count = targetPercentage;
+                    clearInterval(timer);
+                }
+                valueSpan.textContent = Math.round(count);
+            }, frameRate);
+        }, 300);
+    });
+</script>
+{% endblock %}

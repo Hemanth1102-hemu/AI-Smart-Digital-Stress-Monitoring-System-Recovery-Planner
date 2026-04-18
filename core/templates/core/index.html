@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="scroll-container">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="hero-content glass-card">
+            <h1 class="title">Smart Digital Stress Monitoring System</h1>
+            <h2 class="subtitle">&amp; Recovery Planner</h2>
+            <p class="tagline">Empower your mental well-being with intelligent tracking.</p>
+            <a href="#auth-section" class="btn-primary scroll-btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Auth Section -->
+    <section class="auth-section" id="auth-section">
+        <div class="auth-container glass-card">
+            <!-- Login Form -->
+            <div class="form-wrapper login-wrapper active">
+                <h2>Welcome Back</h2>
+                <p class="form-subtitle">Login to your dashboard</p>
+                {% if messages %}
+                  {% for message in messages %}
+                    <p style="color: red; text-align: center; margin-bottom: 10px;">{{ message }}</p>
+                  {% endfor %}
+                {% endif %}
+                <form action="{% url 'login' %}" method="POST" id="login-form">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label class="input-label" for="login-username">Username</label>
+                        <input type="text" name="username" id="login-username" class="input-field" placeholder="Enter your username" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="login-password">Password</label>
+                        <input type="password" name="password" id="login-password" class="input-field" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary full-width">Login</button>
+                    </div>
+                    <p class="toggle-text">New here? <button type="button" class="btn-text toggle-btn"
+                            data-target="signup">Sign up</button></p>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-wrapper signup-wrapper">
+                <h2>Create Account</h2>
+                <p class="form-subtitle">Join us to start monitoring</p>
+                <form action="{% url 'signup' %}" method="POST" id="signup-form">
+                    {% csrf_token %}
+                    <div class="input-row">
+                        <div class="input-group">
+                            <input type="text" name="first_name" class="input-field" placeholder="First Name" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="last_name" class="input-field" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="username" class="input-field" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" class="input-field" placeholder="Password" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="confirm_password" class="input-field" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary full-width">Sign Up</button>
+                    </div>
+                    <p class="toggle-text">Already have an account? <button type="button" class="btn-text toggle-btn"
+                            data-target="login">Login</button></p>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'core/js/auth.js' %}"></script>
+{% endblock %}

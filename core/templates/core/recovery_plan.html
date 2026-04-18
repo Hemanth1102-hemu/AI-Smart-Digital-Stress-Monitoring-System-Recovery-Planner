@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Reusing custom dashboard styles -->
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+<style>
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper" style="padding: 20px;">
+    <header class="app-header">
+        <h2 class="logo-text">AI<span class="highlight">Recovery</span></h2>
+        <div class="step-indicator">Step 4 of 4</div>
+    </header>
+
+    <div class="warning-header" style="margin-bottom: 20px;">
+        <h1 class="page-title">Personalized Recovery Plan</h1>
+        <p class="tagline">Generated specifically for a {{ age }}yo {{ activity_level }} individual.</p>
+    </div>
+
+    <div class="planner-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+
+        <!-- Summary Card -->
+        <div class="glass-card" style="margin-bottom: 20px; padding: 20px;">
+            <h3 class="card-title" style="margin-bottom: 10px;">Your Profile Snapshot</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; color: var(--text-muted); font-size: 0.95rem;">
+                <span>Weight: {{ weight }}kg</span>
+                <span>Height: {{ height }}cm</span>
+                <span>BMI: {{ bmi }}</span>
+                <span>Activity: {{ activity_level|title }}</span>
+                <span>Sleep: <strong style="color: #a78bfa;">{{ sleep_time }}h</strong></span>
+                <span>Screen: <strong style="color: #f472b6;">{{ screen_time }}h</strong></span>
+                <span>Stress Load: <strong style="color: var(--accent-color);">{{ stress_percentage }}%</strong></span>
+            </div>
+        </div>
+
+        <!-- AI Recovery Planner -->
+        <div class="glass-card recovery-plan"
+            style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3);">
+            <h3 class="card-title">AI Prescribed Actions</h3>
+
+            {% for action in ai_plan %}
+            <div class="plan-item" style="animation: fadeUp 1s ease-out forwards; opacity: 0;">
+                <h4 style="color: #a78bfa;">{{ forloop.counter }}. {{ action.title }}</h4>
+                <p>{{ action.description }}</p>
+            </div>
+            {% endfor %}
+
+            {% if past_logs %}
+            <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
+                <h3 class="card-title" style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 20px;">Your
+                    Stress History</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    {% for log in past_logs %}
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px 20px; border-radius: 10px; font-size: 0.9rem;">
+                        <span style="color: var(--text-muted);">{{ log.date_recorded|date:"M d, Y" }}</span>
+                        <div style="display: flex; gap: 20px;">
+                            <span>Sleep: {{ log.sleep_time }}h</span>
+                            <span>Mood: {{ log.mood|title }}</span>
+                        </div>
+                        <strong
+                            style="color: {% if log.calculated_stress_percentage < 30 %}#10b981{% elif log.calculated_stress_percentage < 60 %}#f59e0b{% else %}#ef4444{% endif %};">
+                            {{ log.calculated_stress_percentage }}% Load
+                        </strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="margin-top: 40px; text-align: center; display: flex; justify-content: center; gap: 20px;">
+                <a href="{% url 'chat' %}" class="btn-primary" style="padding: 12px 40px; background: #a78bfa; color: white;">Open AI General Chat</a>
+                <a href="{% url 'index' %}" class="btn-primary" style="padding: 12px 40px;">Complete & Return Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

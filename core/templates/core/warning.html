@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="warning-header">
+        <h1 class="warning-title">Warning!</h1>
+        <h2 class="subtitle">You are Stressed</h2>
+    </div>
+
+    <div class="planner-grid">
+        <!-- Left Column: Input Metrics -->
+        <div class="glass-card">
+            <h3 class="card-title">Your Metrics</h3>
+            <div class="factor-list">
+                <div class="factor-item bad">
+                    <span class="label">Sleep time</span>
+                    <span class="value">5 hours (Less)</span>
+                </div>
+                <div class="factor-item bad">
+                    <span class="label">Screen time</span>
+                    <span class="value">7 hours (More)</span>
+                </div>
+                <div class="factor-item good">
+                    <span class="label">Mood</span>
+                    <span class="value">Pleasant</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Recovery Planner -->
+        <div class="glass-card recovery-plan">
+            <h3 class="card-title">Recovery Planner</h3>
+
+            <div class="plan-item">
+                <h4>1. Adjust Sleep Schedule</h4>
+                <p>Aim for 7-8 hours. Try winding down 30 minutes earlier tonight.</p>
+            </div>
+            <div class="plan-item">
+                <h4>2. Digital Detox</h4>
+                <p>Reduce screen time to under 4 hours. Use the 20-20-20 rule during work.</p>
+            </div>
+            <div class="plan-item">
+                <h4>3. Guided Meditation</h4>
+                <p>Since your mood is pleasant, brief 5-minute mindfulness sessions will help solidify concentration.
+                </p>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <a href="{% url 'dashboard' %}" class="btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

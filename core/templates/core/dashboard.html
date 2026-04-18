@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <header class="app-header">
+        <h2 class="logo-text">Dashboard<span class="highlight">Overview</span></h2>
+        <div class="user-greeting">Hello, User</div>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Top Section: Stress Percentage -->
+        <div class="glass-card">
+            <h3 class="card-title">Stress Percentage Over Last Week</h3>
+            <div style="text-align: center; margin: 30px 0;">
+                <div class="stress-value">45%</div>
+                <p style="color: var(--text-muted); margin-top: 10px;">Moderate Level</p>
+            </div>
+        </div>
+
+        <!-- Bottom Section: Monitoring Form from drawing -->
+        <div class="glass-card">
+            <h3 class="card-title">Stress Monitoring</h3>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Enter your daily metrics to evaluate current
+                stress</p>
+
+            <form action="{% url 'warning_planner' %}" class="monitoring-form">
+                <div class="input-group">
+                    <label class="input-label">Sleep time</label>
+                    <input type="text" class="input-field" placeholder="e.g. 5 hours" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Screen time</label>
+                    <input type="text" class="input-field" placeholder="e.g. 7 hours" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Present mood</label>
+                    <select class="input-field" required>
+                        <option value="pleasant">Pleasant</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="stressed">Stressed</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Concentration level</label>
+                    <select class="input-field" required>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-calculate">Calculate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
